@@ -8,14 +8,14 @@ function App() {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/questions")
+    fetch("http://localhost:3000/questions")
       .then((res) => res.json())
       .then((data) => setQuestions(data))
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
   function addQuestion(newQuestion) {
-    fetch("http://localhost:4000/questions", {
+    fetch("http://localhost:3000/questions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,11 +27,11 @@ function App() {
         setQuestions((questions) => [...questions, data]);
         setPage("List");
       })
-      .catch((error) => console.error("Error adding question:", error));
+      .catch((err) => console.error("Error adding question:", err));
   }
 
   function deleteQuestion(id) {
-    fetch(`http://localhost:4000/questions/${id}`, {
+    fetch(`http://localhost:3000/questions/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -41,14 +41,17 @@ function App() {
   }
 
   function updateQuestion(id, updatedFields) {
-    fetch(`http://localhost:4000/questions/${id}`, {
+    fetch(`http://localhost:3000/questions/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedFields),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
       .then((updatedQuestion) => {
         setQuestions((questions) =>
           questions.map((q) => (q.id === id ? updatedQuestion : q))
