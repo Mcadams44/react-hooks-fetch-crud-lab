@@ -8,14 +8,14 @@ function App() {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/questions")
+    fetch("http://localhost:4000/questions")
       .then((res) => res.json())
       .then((data) => setQuestions(data))
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
   function addQuestion(newQuestion) {
-    fetch("http://localhost:3000/questions", {
+    fetch("http://localhost:4000/questions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function App() {
   }
 
   function deleteQuestion(id) {
-    fetch(`http://localhost:3000/questions/${id}`, {
+    fetch(`http://localhost:4000/questions/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -41,7 +41,7 @@ function App() {
   }
 
   function updateQuestion(id, updatedFields) {
-    fetch(`http://localhost:3000/questions/${id}`, {
+    fetch(`http://localhost:4000/questions/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
