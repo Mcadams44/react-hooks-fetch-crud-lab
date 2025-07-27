@@ -40,24 +40,27 @@ function App() {
       .catch((error) => console.error("Error deleting question:", error));
   }
 
-  function updateQuestion(id, updatedFields) {
-    fetch(`http://localhost:4000/questions/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedFields),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then((updatedQuestion) => {
-        setQuestions((questions) =>
-          questions.map((q) => (q.id === id ? updatedQuestion : q))
-        );
-      })
-      .catch((error) => console.error("Error updating question:", error));
+  async function updateQuestion(id, updatedFields) {
+    try {
+      const response = await fetch(`http://localhost:4000/questions/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFields),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const updatedQuestion = await response.json();
+      setQuestions((questions) =>
+        questions.map((q) => (q.id === id ? updatedQuestion : q))
+      );
+    } catch (error) {
+      console.error("Error updating question:", error);
+    }
   }
 
   return (

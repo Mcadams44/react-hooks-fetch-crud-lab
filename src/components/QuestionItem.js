@@ -3,7 +3,7 @@ function QuestionItem({ question, onUpdate, onDelete }) {
 
   function handleChange(event) {
     const updatedCorrectIndex = parseInt(event.target.value, 10);
-    onUpdate(id, { correctIndex: updatedCorrectIndex }); // Call the onUpdate function
+    onUpdate(id, { correctIndex: updatedCorrectIndex });
   }
 
   return (

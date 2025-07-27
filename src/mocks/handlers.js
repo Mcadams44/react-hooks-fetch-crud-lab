@@ -1,7 +1,11 @@
 import { rest } from "msw";
 import { data } from "./data";
 
-let questions = data;
+let questions = [...data.map(q => ({ ...q }))];
+
+export const resetQuestions = () => {
+  questions = [...data.map(q => ({ ...q }))];
+};
 
 export const handlers = [
   rest.get("http://localhost:4000/questions", (req, res, ctx) => {
@@ -24,11 +28,11 @@ export const handlers = [
   rest.patch("http://localhost:4000/questions/:id", (req, res, ctx) => {
     const { id } = req.params;
     const { correctIndex } = req.body;
-    const question = questions.find((q) => q.id === parseInt(id));
-    if (!question) {
+    const questionIndex = questions.findIndex((q) => q.id === parseInt(id));
+    if (questionIndex === -1) {
       return res(ctx.status(404), ctx.json({ message: "Invalid ID" }));
     }
-    question.correctIndex = correctIndex;
-    return res(ctx.json(question));
+    questions[questionIndex] = { ...questions[questionIndex], correctIndex };
+    return res(ctx.json(questions[questionIndex]));
   }),
 ];
