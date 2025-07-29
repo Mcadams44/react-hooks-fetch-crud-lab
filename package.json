@@ -44,7 +44,7 @@
   },
   "jest": {
     "transformIgnorePatterns": [
-      "node_modules/(?!(@adobe/css-tools)/)"
+      "node_modules/(?!(@adobe|@testing-library|@babel|babel)/)"
     ]
   }
 }
