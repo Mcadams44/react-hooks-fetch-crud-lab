@@ -6,7 +6,7 @@ import {
   screen,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/extend-expect";
 import { server } from "../mocks/server";
 import { resetQuestions } from "../mocks/handlers";
 
